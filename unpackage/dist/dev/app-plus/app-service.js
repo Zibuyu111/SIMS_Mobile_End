@@ -38,7 +38,7 @@ if (uni.restoreGlobal) {
       console[type].apply(console, [...args, filename]);
     }
   }
-  const _sfc_main$2 = vue.defineComponent({
+  const _sfc_main$3 = vue.defineComponent({
     name: "Splash",
     setup() {
       const currentTime = vue.ref("");
@@ -93,7 +93,7 @@ if (uni.restoreGlobal) {
     }
     return target;
   };
-  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "splash-container" }, [
       vue.createElementVNode("view", { class: "content" }, [
         vue.createElementVNode("text", { class: "title" }, "SIMS"),
@@ -114,8 +114,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesSplashSplash = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__file", "C:/Users/liulu/Desktop/新建文件夹/SIMS/pages/splash/splash.vue"]]);
-  const _sfc_main$1 = vue.defineComponent({
+  const PagesSplashSplash = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__file", "C:/Users/liulu/Desktop/newPackage/SIMSall/SIMS/pages/splash/splash.vue"]]);
+  const _sfc_main$2 = vue.defineComponent({
     name: "Index",
     setup() {
       const currentTab = vue.ref(0);
@@ -157,6 +157,7 @@ if (uni.restoreGlobal) {
           title: `进入${menuItems[index].name}`,
           icon: "none"
         });
+        uni.navigateTo({ url: "/pages/studentDetail/studentDetail" });
       };
       const handleAdminClick = () => {
         uni.showActionSheet({
@@ -196,7 +197,7 @@ if (uni.restoreGlobal) {
       };
     }
   });
-  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
       vue.createCommentVNode(" 顶部导航栏 "),
       vue.createElementVNode("view", { class: "header" }, [
@@ -387,9 +388,162 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesIndexIndex = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__file", "C:/Users/liulu/Desktop/新建文件夹/SIMS/pages/index/index.vue"]]);
+  const PagesIndexIndex = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__file", "C:/Users/liulu/Desktop/newPackage/SIMSall/SIMS/pages/index/index.vue"]]);
+  new Proxy({}, {
+    get(_, key) {
+      throw new Error(`Module "assert" has been externalized for browser compatibility. Cannot access "assert.${key}" in client code.  See https://vitejs.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.`);
+    }
+  });
+  new Proxy({}, {
+    get(_, key) {
+      throw new Error(`Module "inspector" has been externalized for browser compatibility. Cannot access "inspector.${key}" in client code.  See https://vitejs.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.`);
+    }
+  });
+  const _sfc_main$1 = {
+    data() {
+      return {
+        loading: true,
+        dataList: []
+      };
+    },
+    mounted() {
+      this.fetchData();
+    },
+    methods: {
+      handleBack() {
+        uni.navigateBack();
+      },
+      fetchData() {
+        uni.request({
+          url: "http://192.168.45.67:1234/student/all",
+          method: "GET",
+          success: (res) => {
+            if (res.statusCode === 200) {
+              this.dataList = res.data;
+              this.loading = false;
+            } else {
+              uni.showToast({
+                title: "获取数据失败",
+                icon: "none"
+              });
+              this.loading = false;
+            }
+          },
+          fail: (err) => {
+            uni.showToast({
+              title: "网络请求失败",
+              icon: "none"
+            });
+            this.loading = false;
+          }
+        });
+      }
+    }
+  };
+  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("view", { class: "container" }, [
+      vue.createCommentVNode(" 顶部导航栏 "),
+      vue.createElementVNode("view", { class: "header" }, [
+        vue.createElementVNode("view", { class: "header-left" }, [
+          vue.createElementVNode("text", { class: "header-title" }, "学生详情"),
+          vue.createElementVNode("text", { class: "header-subtitle" }, "Student Details")
+        ]),
+        vue.createElementVNode("view", { class: "header-right" }, [
+          vue.createElementVNode("view", {
+            class: "back-btn",
+            onClick: _cache[0] || (_cache[0] = (...args) => $options.handleBack && $options.handleBack(...args))
+          }, [
+            vue.createElementVNode("text", { class: "back-icon" }, "←")
+          ])
+        ])
+      ]),
+      vue.createCommentVNode(" 主要内容区域 "),
+      vue.createElementVNode("scroll-view", {
+        class: "main-content",
+        "scroll-y": ""
+      }, [
+        $data.loading ? (vue.openBlock(), vue.createElementBlock("view", {
+          key: 0,
+          class: "loading-container"
+        }, [
+          vue.createElementVNode("view", { class: "loading-spinner" }),
+          vue.createElementVNode("text", { class: "loading-text" }, "加载中...")
+        ])) : (vue.openBlock(), vue.createElementBlock("view", {
+          key: 1,
+          class: "student-list"
+        }, [
+          (vue.openBlock(true), vue.createElementBlock(
+            vue.Fragment,
+            null,
+            vue.renderList($data.dataList, (item) => {
+              return vue.openBlock(), vue.createElementBlock("view", {
+                key: item.id,
+                class: "student-card"
+              }, [
+                vue.createElementVNode("view", { class: "student-info" }, [
+                  vue.createElementVNode("view", { class: "student-header" }, [
+                    vue.createElementVNode(
+                      "text",
+                      { class: "student-name" },
+                      vue.toDisplayString(item.name),
+                      1
+                      /* TEXT */
+                    ),
+                    vue.createElementVNode(
+                      "text",
+                      { class: "student-id" },
+                      "ID: " + vue.toDisplayString(item.id),
+                      1
+                      /* TEXT */
+                    )
+                  ]),
+                  vue.createElementVNode("view", { class: "student-details" }, [
+                    vue.createElementVNode("view", { class: "detail-item" }, [
+                      vue.createElementVNode("text", { class: "detail-label" }, "电话"),
+                      vue.createElementVNode(
+                        "text",
+                        { class: "detail-value" },
+                        vue.toDisplayString(item.phone),
+                        1
+                        /* TEXT */
+                      )
+                    ]),
+                    vue.createElementVNode("view", { class: "detail-item" }, [
+                      vue.createElementVNode("text", { class: "detail-label" }, "位置"),
+                      vue.createElementVNode(
+                        "text",
+                        { class: "detail-value" },
+                        vue.toDisplayString(item.address || "未设置"),
+                        1
+                        /* TEXT */
+                      )
+                    ]),
+                    vue.createElementVNode("view", { class: "detail-item" }, [
+                      vue.createElementVNode("text", { class: "detail-label" }, "状态"),
+                      vue.createElementVNode(
+                        "text",
+                        { class: "detail-value" },
+                        vue.toDisplayString(item.status || "在读"),
+                        1
+                        /* TEXT */
+                      )
+                    ])
+                  ])
+                ]),
+                vue.createElementVNode("view", { class: "card-decoration" })
+              ]);
+            }),
+            128
+            /* KEYED_FRAGMENT */
+          ))
+        ]))
+      ])
+    ]);
+  }
+  const PagesStudentDetailStudentDetail = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__file", "C:/Users/liulu/Desktop/newPackage/SIMSall/SIMS/pages/studentDetail/studentDetail.vue"]]);
   __definePage("pages/splash/splash", PagesSplashSplash);
   __definePage("pages/index/index", PagesIndexIndex);
+  __definePage("pages/studentDetail/studentDetail", PagesStudentDetailStudentDetail);
   const _sfc_main = {
     onLaunch: function() {
       formatAppLog("log", "at App.vue:4", "App Launch");
@@ -401,7 +555,7 @@ if (uni.restoreGlobal) {
       formatAppLog("log", "at App.vue:10", "App Hide");
     }
   };
-  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["__file", "C:/Users/liulu/Desktop/新建文件夹/SIMS/App.vue"]]);
+  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["__file", "C:/Users/liulu/Desktop/newPackage/SIMSall/SIMS/App.vue"]]);
   function createApp() {
     const app = vue.createVueApp(App);
     return {

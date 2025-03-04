@@ -129,6 +129,7 @@ export default defineComponent({
 				title: `进入${menuItems[index].name}`,
 				icon: 'none'
 			})
+			uni.navigateTo({ url: '/pages/studentDetail/studentDetail' })
 		}
 
 		const handleAdminClick = () => {

@@ -17,6 +17,16 @@
 					"bounce": "none"
 				}
 			}
+		},
+		{
+			"path" : "pages/studentDetail/studentDetail",
+			"style" : 
+			{
+				"navigationStyle": "custom",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
 		}
 	],
 	"globalStyle": {
